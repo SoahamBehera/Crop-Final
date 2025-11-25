@@ -45,3 +45,13 @@ logs/
 # Temporary files
 *.tmp
 *.temp
+
+# Large model files (use Git LFS for production)
+*.h5
+*.pkl
+*.pth
+*.pt
+
+# Large data files (generated; regenerate with scripts)
+market_price_data.csv
+crop_disease_data.csv
