@@ -882,7 +882,19 @@ body {
   background: rgba(255, 255, 255, 0.9);
 }
 
-.input-compact input:focus {
+.input-compact select {
+  padding: 0.8rem 1rem;
+  border: 1.5px solid #e0e6ed;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  cursor: pointer;
+}
+
+.input-compact input:focus,
+.input-compact select:focus {
   border-color: var(--primary-dark);
   outline: none;
   box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
@@ -1318,8 +1330,15 @@ body {
 }
 
 @media (max-width: 768px) {
-  .analyzer-section-modern {
+  .analyzer-section-modern,
+  .disease-detection-section,
+  .market-price-section {
     padding: 4rem 0;
+  }
+  
+  .analyzer-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
   
   .section-header-compact h2 {
@@ -1398,6 +1417,16 @@ body {
 }
 
 @media (max-width: 480px) {
+  .analyzer-section-modern,
+  .disease-detection-section,
+  .market-price-section {
+    padding: 3rem 0;
+  }
+  
+  .analyzer-container {
+    gap: 1.5rem;
+  }
+  
   .input-panel,
   .results-panel {
     padding: 1.5rem;
@@ -1412,7 +1441,8 @@ body {
     grid-template-columns: 1fr;
   }
   
-  .input-compact input {
+  .input-compact input,
+  .input-compact select {
     padding: 1rem;
     font-size: 1rem;
   }
@@ -2579,6 +2609,19 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="disease-dots" width="15" height="15" patternUnits="userSpaceOnUse"><circle cx="7.5" cy="7.5" r="1" fill="rgba(45,90,39,0.06)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23disease-dots)"/></svg>');
+  pointer-events: none;
+  z-index: 1;
+}
+
+.disease-detection-section::before,
+.market-price-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="modern-dots" width="15" height="15" patternUnits="userSpaceOnUse"><circle cx="7.5" cy="7.5" r="1" fill="rgba(45,90,39,0.06)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23modern-dots)"/></svg>');
   pointer-events: none;
 }
@@ -2904,16 +2947,28 @@ body {
 
 /* Image Preview */
 .image-preview-container {
-  margin: 1rem 0;
+  margin: 1.5rem 0;
   text-align: center;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .image-preview {
   max-width: 100%;
-  max-height: 300px;
+  max-height: 400px;
+  width: 100%;
+  object-fit: contain;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  margin-top: 1rem;
+}
+
+/* Input Hint Styling for compact forms */
+.input-hint-compact {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-top: 0.3rem;
+  display: block;
+  font-style: italic;
 }
 
 /* Input Group Styling */
@@ -3521,4 +3576,3 @@ textarea:focus {
     top: 80px;
   }
 }
-.container

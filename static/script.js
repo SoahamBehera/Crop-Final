@@ -957,17 +957,20 @@ function handleFileSelect(event) {
 async function predictDisease() {
   const imageInput = document.getElementById('imageInput');
   const resultDiv = document.getElementById('diseaseResult');
+  const emptyStateDiv = document.getElementById('diseaseEmptyState');
   const detectBtn = document.getElementById('detectBtn');
   
   if (!imageInput.files || !imageInput.files[0]) {
-    showResult(resultDiv, '⚠️ Please upload an image first!', 'result-warning');
+    alert('⚠️ Please upload an image first!');
     return;
   }
   
   // Show loading state
   detectBtn.classList.add('loading');
   detectBtn.disabled = true;
+  detectBtn.textContent = '🔄 Analyzing...';
   resultDiv.style.display = 'none';
+  if (emptyStateDiv) emptyStateDiv.style.display = 'none';
   
   const formData = new FormData();
   formData.append('image', imageInput.files[0]);
@@ -981,21 +984,52 @@ async function predictDisease() {
     const data = await response.json();
     
     if (data.error) {
-      showResult(resultDiv, `❌ Error: ${data.error}`, 'result-error');
-    } else {
-      const resultHTML = `
-        <h3>✅ Disease Detection Results</h3>
-        <p><strong>🔬 Detected Disease:</strong> ${data.disease || 'Unknown'}</p>
-        <p><strong>📊 Confidence:</strong> ${data.confidence || 'N/A'}</p>
-        ${data.treatment ? `<p><strong>💊 Treatment:</strong> ${data.treatment}</p>` : ''}
+      resultDiv.innerHTML = `
+        <div class="insight-item danger">
+          <span class="insight-icon">❌</span>
+          <span class="insight-text">Error: ${data.error}</span>
+        </div>
       `;
-      showResult(resultDiv, resultHTML, 'result-success');
+      resultDiv.style.display = 'block';
+    } else {
+      resultDiv.innerHTML = `
+        <div class="crop-recommendation">
+          <div class="crop-icon">🔬</div>
+          <div class="crop-details">
+            <h3>Disease Detection Result</h3>
+            <div class="crop-name">${data.disease || 'Unknown'}</div>
+          </div>
+        </div>
+        <div class="nutrient-insights">
+          <h4>📊 Detection Details</h4>
+          <div class="insights-grid">
+            <div class="insight-item success">
+              <span class="insight-icon">🎯</span>
+              <span class="insight-text">Confidence: ${data.confidence || 'N/A'}</span>
+            </div>
+            ${data.treatment ? `
+            <div class="insight-item warning">
+              <span class="insight-icon">💊</span>
+              <span class="insight-text">${data.treatment}</span>
+            </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+      resultDiv.style.display = 'block';
     }
   } catch (error) {
-    showResult(resultDiv, `❌ Error: ${error.message}`, 'result-error');
+    resultDiv.innerHTML = `
+      <div class="insight-item danger">
+        <span class="insight-icon">❌</span>
+        <span class="insight-text">Error: ${error.message}</span>
+      </div>
+    `;
+    resultDiv.style.display = 'block';
   } finally {
     detectBtn.classList.remove('loading');
     detectBtn.disabled = false;
+    detectBtn.textContent = '🔍 Detect Disease';
   }
 }
 
@@ -1011,18 +1045,21 @@ async function predictPrice() {
   const rainfall = document.getElementById('rainfall').value;
   const temperature = document.getElementById('temperature').value;
   const resultDiv = document.getElementById('priceResult');
-  const predictBtn = document.getElementById('predictBtn');
+  const emptyStateDiv = document.getElementById('priceEmptyState');
+  const predictBtn = document.getElementById('predictPriceBtn');
   
   // Validation
   if (!cropId || !stateId || !month || !rainfall || !temperature) {
-    showResult(resultDiv, '⚠️ Please fill in all fields!', 'result-warning');
+    alert('⚠️ Please fill in all fields!');
     return;
   }
   
   // Show loading state
   predictBtn.classList.add('loading');
   predictBtn.disabled = true;
+  predictBtn.textContent = '🔄 Predicting...';
   resultDiv.style.display = 'none';
+  if (emptyStateDiv) emptyStateDiv.style.display = 'none';
   
   const data = {
     crop_id: parseInt(cropId),
@@ -1044,23 +1081,60 @@ async function predictPrice() {
     const result = await response.json();
     
     if (result.error) {
-      showResult(resultDiv, `❌ Error: ${result.error}`, 'result-error');
-    } else {
-      const resultHTML = `
-        <h3>💰 Price Prediction Results</h3>
-        <p><strong>📈 Predicted Price:</strong> ₹${result.predicted_price || 'N/A'}/quintal</p>
-        <p><strong>🌾 Crop:</strong> ${getCropName(cropId)}</p>
-        <p><strong>📍 State:</strong> ${getStateName(stateId)}</p>
-        <p><strong>📅 Month:</strong> ${getMonthName(month)}</p>
-        ${result.market_trend ? `<p><strong>📊 Market Trend:</strong> ${result.market_trend}</p>` : ''}
+      resultDiv.innerHTML = `
+        <div class="insight-item danger">
+          <span class="insight-icon">❌</span>
+          <span class="insight-text">Error: ${result.error}</span>
+        </div>
       `;
-      showResult(resultDiv, resultHTML, 'result-success');
+      resultDiv.style.display = 'block';
+    } else {
+      resultDiv.innerHTML = `
+        <div class="crop-recommendation">
+          <div class="crop-icon">💰</div>
+          <div class="crop-details">
+            <h3>Price Prediction</h3>
+            <div class="crop-name">₹${result.predicted_price || 'N/A'}/quintal</div>
+          </div>
+        </div>
+        <div class="nutrient-insights">
+          <h4>📊 Market Details</h4>
+          <div class="insights-grid">
+            <div class="insight-item success">
+              <span class="insight-icon">🌾</span>
+              <span class="insight-text">Crop: ${getCropName(cropId)}</span>
+            </div>
+            <div class="insight-item success">
+              <span class="insight-icon">📍</span>
+              <span class="insight-text">State: ${getStateName(stateId)}</span>
+            </div>
+            <div class="insight-item success">
+              <span class="insight-icon">📅</span>
+              <span class="insight-text">Month: ${getMonthName(month)}</span>
+            </div>
+            ${result.market_trend ? `
+            <div class="insight-item warning">
+              <span class="insight-icon">📈</span>
+              <span class="insight-text">${result.market_trend}</span>
+            </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+      resultDiv.style.display = 'block';
     }
   } catch (error) {
-    showResult(resultDiv, `❌ Error: ${error.message}`, 'result-error');
+    resultDiv.innerHTML = `
+      <div class="insight-item danger">
+        <span class="insight-icon">❌</span>
+        <span class="insight-text">Error: ${error.message}</span>
+      </div>
+    `;
+    resultDiv.style.display = 'block';
   } finally {
     predictBtn.classList.remove('loading');
     predictBtn.disabled = false;
+    predictBtn.textContent = '💹 Predict Price';
   }
 }
 

@@ -9,8 +9,17 @@ import time
 from datetime import datetime
 from werkzeug.utils import secure_filename
 from PIL import Image
-import tensorflow as tf
-from tensorflow import keras
+
+# Try to import TensorFlow, but allow app to run without it
+try:
+    import tensorflow as tf
+    from tensorflow import keras
+    TF_AVAILABLE = True
+except ImportError:
+    TF_AVAILABLE = False
+    logger = logging.getLogger(__name__)
+    logging.basicConfig(level=logging.INFO)
+    logger.warning("TensorFlow not available - disease detection will use mock predictions")
 
 # -------- CONFIGURATION --------
 app = Flask(__name__)
@@ -64,8 +73,17 @@ def get_crop_icon(crop_name):
 # ============================================
 # LOAD CROP RECOMMENDATION MODEL
 # ============================================
-model = pickle.load(open('model.pkl', 'rb'))
-ms = pickle.load(open('minmaxscaler.pkl', 'rb'))
+try:
+    model = pickle.load(open('model.pkl', 'rb'))
+    ms = pickle.load(open('minmaxscaler.pkl', 'rb'))
+    MODEL_LOADED = True
+    logger.info("✅ Crop recommendation model loaded successfully")
+except Exception as e:
+    logger.warning(f"⚠️ Could not load crop recommendation model: {e}")
+    model = None
+    ms = None
+    MODEL_LOADED = False
+
 CSV_PATH = 'Crop_recommendation.csv'
 
 # Dictionary to map model output (numbers) to crop names
@@ -288,6 +306,12 @@ def predict():
             return render_template('index.html', result_text="Error", advice=["pH should be between 0-14"])
         if not (0 <= rainfall <= 500):
             return render_template('index.html', result_text="Error", advice=["Rainfall should be between 0-500mm"])
+
+        # Check if model is loaded
+        if not MODEL_LOADED or model is None or ms is None:
+            return render_template('index.html', 
+                result_text="Error", 
+                advice=["Crop recommendation model is not available. Please check server logs."])
 
         # Prepare data for the model
         feature_list = [N, P, K, temp, humidity, ph, rainfall]
