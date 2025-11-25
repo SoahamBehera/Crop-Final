@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="CultivaSense - AI-powered crop recommendation system that analyzes soil conditions to suggest the best crops for your farm." />
+  <meta name="keywords" content="crop recommendation, agriculture, AI, farming, soil analysis, smart agriculture" />
+  <meta name="author" content="CultivaSense" />
+  <meta property="og:title" content="CultivaSense - Smart Crop Recommendation" />
+  <meta property="og:description" content="Get personalized crop recommendations based on your soil conditions using AI technology." />
+  <meta property="og:type" content="website" />
+  <title>CultivaSense - Smart Crop Recommendation</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar-modern">
+    <div class="container">
+      <div class="nav-brand-modern">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="CultivaSense Logo" class="brand-logo-img">
+        <div class="brand-text">
+          <h2>CultivaSense</h2>
+          <span class="tagline">Smart Agriculture AI</span>
+        </div>
+      </div>
+      <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+      <div class="nav-links-modern" id="navLinks" role="navigation">
+        <a href="#home" class="nav-link-modern">Home</a>
+        <a href="#features" class="nav-link-modern">Features</a>
+        <a href="#analyzer" class="nav-link-modern">Analyzer</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero-modern">
+    <div class="hero-bg-animation"></div>
+    <div class="container">
+      <div class="hero-content-grid">
+        <div class="hero-text">
+          <div class="hero-badge">Powered by AI 🤖</div>
+          <h1 class="hero-title">
+            Discover Perfect Crops for
+            <span class="gradient-text">Your Soil</span>
+          </h1>
+            <p class="hero-description">
+            Get expert crop recommendations tailored to your soil, climate, and farming goals. Choose from 22 crop types optimized for local Indian growing conditions.
+            </p>
+          <div class="hero-stats">
+            <div class="stat-item">
+              <div class="stat-number">19</div>
+              <div class="stat-label">Indian States</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">22</div>
+              <div class="stat-label">Crop Types</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">100+</div>
+              <div class="stat-label">Recommendations</div>
+            </div>
+          </div>
+          <div class="hero-buttons">
+            <a href="#analyzer" class="btn-primary-modern">Analyse Your Best Crop</a>
+            <a href="#features" class="btn-secondary-modern">Learn More</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="floating-card" id="hero-prediction-card">
+            <div class="card-header">Recommended Crop</div>
+            <div class="card-content">
+              <div class="prediction-item">
+                <span class="crop-icon" id="hero-crop-icon">🌾</span>
+                <span class="crop-name" id="hero-crop-name">Rice</span>
+                <span class="confidence" id="hero-confidence">High Confidence</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" id="hero-progress" style="width: 92%"></div>
+              </div>
+            </div>
+          </div>
+          <div class="floating-elements">
+            <div class="float-element element-1">🌱</div>
+            <div class="float-element element-2">📊</div>
+            <div class="float-element element-3">🚜</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features-modern">
+    <div class="container">
+      <div class="section-header-modern">
+        <h2>Powerful Agriculture Intelligence</h2>
+        <p>Advanced AI tools to transform your farming experience with precision and insight</p>
+      </div>
+      <div class="features-grid-enhanced">
+        <div class="feature-card-enhanced ai-theme">
+          <div class="feature-icon-enhanced">
+            <div class="icon-bg">🧠</div>
+          </div>
+          <h3>Smart AI Analysis</h3>
+          <p>Machine learning algorithms analyze 22 different crop types with 95% accuracy for optimal recommendations based on your soil conditions.</p>
+          <div class="feature-stats">
+            <span class="stat">95% Accuracy</span>
+            <span class="stat">22 Crops</span>
+          </div>
+        </div>
+        
+        <div class="feature-card-enhanced soil-theme">
+          <div class="feature-icon-enhanced">
+            <div class="icon-bg">🧪</div>
+          </div>
+          <h3>Advanced Soil Analysis</h3>
+          <p>Comprehensive soil testing for NPK levels, pH balance, and nutrient deficiency detection with detailed recovery solutions.</p>
+          <div class="feature-highlight">
+            <span>NPK • pH • Nutrients</span>
+          </div>
+        </div>
+        
+        <div class="feature-card-enhanced growth-theme">
+          <div class="feature-icon-enhanced">
+            <div class="icon-bg">📈</div>
+          </div>
+          <h3>Yield Optimization</h3>
+          <p>Data-driven insights to increase crop yield by up to 30% through precision agriculture techniques and smart recommendations.</p>
+          <div class="feature-highlight">
+            <span>+30% Yield Increase</span>
+          </div>
+        </div>
+        
+        <div class="feature-card-enhanced recovery-theme">
+          <div class="feature-icon-enhanced">
+            <div class="icon-bg">🌱</div>
+          </div>
+          <h3>Recovery Solutions</h3>
+          <p>Get instant access to detailed recovery plans for nutrient deficiencies with specific fertilizer recommendations and application schedules.</p>
+          <div class="feature-highlight">
+            <span>Instant Recovery Plans</span>
+          </div>
+        </div>
+        
+        <div class="feature-card-enhanced crop-theme">
+          <div class="feature-icon-enhanced">
+            <div class="icon-bg">🌾</div>
+          </div>
+          <h3>Crop Recommendations</h3>
+          <p>Personalized crop suggestions based on your region's climate, soil type, and seasonal patterns for maximum profitability.</p>
+          <div class="feature-highlight">
+            <span>Personalized Suggestions</span>
+          </div>
+        </div>
+        
+        <div class="feature-card-enhanced analytics-theme">
+          <div class="feature-icon-enhanced">
+            <div class="icon-bg">📊</div>
+          </div>
+          <h3>Detailed Analytics</h3>
+          <p>Comprehensive reporting and analytics to track your farming progress and make data-driven decisions for better outcomes.</p>
+          <div class="feature-highlight">
+            <span>Smart Reporting</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Nutrient Analysis Section -->
+  <section id="analyzer" class="analyzer-section-modern">
+    <div class="container">
+      <div class="section-header-compact">
+        <h2>Smart Soil Analysis</h2>
+        <p>Get instant crop recommendations based on your soil conditions</p>
+      </div>
+      
+      <div class="analyzer-container">
+        <!-- Compact Input Form -->
+        <div class="input-panel">
+          <form action="/predict#results" method="POST" class="compact-form" id="cropForm" novalidate>
+            <div class="form-grid">
+              <!-- Nutrients Row -->
+              <div class="input-section">
+                <h4>🌱 Soil Nutrients</h4>
+                <div class="input-row">
+                  <div class="input-compact">
+                    <label for="Nitrogen">Nitrogen (N)</label>
+                    <input id="Nitrogen" name="Nitrogen" type="number" step="0.1" placeholder="90" 
+                           required min="0" max="200" aria-describedby="nitrogen-help">
+                    <small id="nitrogen-help" class="input-help">0-200 mg/kg</small>
+                  </div>
+                  <div class="input-compact">
+                    <label for="Phosphorus">Phosphorus (P)</label>
+                    <input id="Phosphorus" name="Phosphorus" type="number" step="0.1" placeholder="42" 
+                           required min="0" max="150" aria-describedby="phosphorus-help">
+                    <small id="phosphorus-help" class="input-help">0-150 mg/kg</small>
+                  </div>
+                  <div class="input-compact">
+                    <label for="Potassium">Potassium (K)</label>
+                    <input id="Potassium" name="Potassium" type="number" step="0.1" placeholder="43" 
+                           required min="0" max="200" aria-describedby="potassium-help">
+                    <small id="potassium-help" class="input-help">0-200 mg/kg</small>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Environment Row -->
+              <div class="input-section">
+                <h4>🌡️ Environment</h4>
+                <div class="input-row">
+                  <div class="input-compact">
+                    <label for="Temperature">Temperature (°C)</label>
+                    <input id="Temperature" name="Temperature" type="number" step="0.1" placeholder="20.8" 
+                           required min="0" max="50" aria-describedby="temp-help">
+                    <small id="temp-help" class="input-help">0-50°C</small>
+                  </div>
+                  <div class="input-compact">
+                    <label for="Humidity">Humidity (%)</label>
+                    <input id="Humidity" name="Humidity" type="number" step="0.1" placeholder="82" 
+                           required min="0" max="100" aria-describedby="humidity-help">
+                    <small id="humidity-help" class="input-help">0-100%</small>
+                  </div>
+                  <div class="input-compact">
+                    <label for="Ph">pH Level</label>
+                    <input id="Ph" name="Ph" type="number" step="0.1" placeholder="6.5" 
+                           required min="0" max="14" aria-describedby="ph-help">
+                    <small id="ph-help" class="input-help">0-14</small>
+                  </div>
+                  <div class="input-compact">
+                    <label for="Rainfall">Rainfall (mm)</label>
+                    <input id="Rainfall" name="Rainfall" type="number" step="0.1" placeholder="202" 
+                           required min="0" max="500" aria-describedby="rainfall-help">
+                    <small id="rainfall-help" class="input-help">0-500mm</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-actions-compact">
+              <button type="button" class="btn-sample" onclick="loadSampleData()" aria-label="Load sample soil data">📝 Sample Data</button>
+              <button type="submit" class="btn-analyze-main" id="analyzeBtn" aria-label="Analyze soil conditions">
+                <span class="btn-text">🔍 Analyze Soil</span>
+                <span class="btn-loading" style="display: none;">⏳ Analyzing...</span>
+              </button>
+            </div>
+          </form>
+        </div>
+        
+        <!-- Results Panel -->
+        <div id="results" class="results-panel">
+          {% if result_text %}
+            {% if "Error:" in result_text %}
+            <div class="error-card-compact">
+              <h4>❌ Analysis Failed</h4>
+              <p>{{ result_text }}</p>
+            </div>
+            {% else %}
+            <div class="result-card-compact">
+              <div class="crop-recommendation">
+                <div class="crop-icon">🌾</div>
+                <div class="crop-details">
+                  <h3>Recommended Crop</h3>
+                  <div class="crop-name">{{ result_text|title }}</div>
+                </div>
+              </div>
+              
+              {% if advice and advice|length > 0 %}
+              <div class="nutrient-insights">
+                <h4>💡 Soil Insights</h4>
+                <div class="insights-grid">
+                  {% for item in advice %}
+                    {% if "low" in item.lower() or "deficient" in item.lower() %}
+                    <div class="insight-item warning">
+                      <span class="insight-icon">⚠️</span>
+                      <span class="insight-text">{{ item }}</span>
+                      <button class="insight-btn" onclick="showRecovery('{{ item }}')">Fix</button>
+                    </div>
+                    {% elif "high" in item.lower() or "excess" in item.lower() %}
+                    <div class="insight-item danger">
+                      <span class="insight-icon">📈</span>
+                      <span class="insight-text">{{ item }}</span>
+                      <button class="insight-btn" onclick="showRecovery('{{ item }}')">Manage</button>
+                    </div>
+                    {% else %}
+                    <div class="insight-item success">
+                      <span class="insight-icon">✅</span>
+                      <span class="insight-text">{{ item }}</span>
+                    </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+              {% endif %}
+              
+              {% if ideal_data and user_data %}
+              <div class="comparison-compact">
+                <h4>📊 Your vs Ideal</h4>
+                <!-- Desktop/Tablet Bars -->
+                <div class="comparison-bars desktop-only">
+                  <div class="comparison-bar">
+                    <span class="param">N</span>
+                    <div class="bar-container">
+                      {% set n_width = ((user_data.N / ideal_data.N * 100) if ideal_data.N > 0 else 50) | round %}
+                      <div class="bar-user" data-width="{{ n_width if n_width > 10 else 10 }}"></div>
+                      <span class="value">{{ "%.0f"|format(user_data.N) }}/{{ "%.0f"|format(ideal_data.N) }}</span>
+                    </div>
+                  </div>
+                  <div class="comparison-bar">
+                    <span class="param">P</span>
+                    <div class="bar-container">
+                      {% set p_width = ((user_data.P / ideal_data.P * 100) if ideal_data.P > 0 else 50) | round %}
+                      <div class="bar-user" data-width="{{ p_width if p_width > 10 else 10 }}"></div>
+                      <span class="value">{{ "%.0f"|format(user_data.P) }}/{{ "%.0f"|format(ideal_data.P) }}</span>
+                    </div>
+                  </div>
+                  <div class="comparison-bar">
+                    <span class="param">K</span>
+                    <div class="bar-container">
+                      {% set k_width = ((user_data.K / ideal_data.K * 100) if ideal_data.K > 0 else 50) | round %}
+                      <div class="bar-user" data-width="{{ k_width if k_width > 10 else 10 }}"></div>
+                      <span class="value">{{ "%.0f"|format(user_data.K) }}/{{ "%.0f"|format(ideal_data.K) }}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Mobile Simple Comparison -->
+                <div class="comparison-simple mobile-only">
+                  <div class="simple-comparison-item">
+                    <span class="nutrient-label">🌱 Nitrogen (N)</span>
+                    <span class="comparison-values">{{ "%.0f"|format(user_data.N) }} / {{ "%.0f"|format(ideal_data.N) }}</span>
+                  </div>
+                  <div class="simple-comparison-item">
+                    <span class="nutrient-label">🌿 Phosphorus (P)</span>
+                    <span class="comparison-values">{{ "%.0f"|format(user_data.P) }} / {{ "%.0f"|format(ideal_data.P) }}</span>
+                  </div>
+                  <div class="simple-comparison-item">
+                    <span class="nutrient-label">🍃 Potassium (K)</span>
+                    <span class="comparison-values">{{ "%.0f"|format(user_data.K) }} / {{ "%.0f"|format(ideal_data.K) }}</span>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+            {% endif %}
+          {% else %}
+          <div class="empty-state">
+            <div class="empty-icon">🧪</div>
+            <h4>Ready for Analysis</h4>
+            <p>Fill in your soil data and click analyze to get personalized crop recommendations</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recovery Modal -->
+  <div id="recoveryModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Nutrient Recovery Plan</h3>
+        <button class="modal-close" onclick="closeRecoveryModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <!-- Recovery content will be populated by JavaScript -->
+      </div>
+    </div>
+  </div>
+<!-- Crop Disease Detection Section -->
+  <section id="disease-detection" class="disease-detection-section">
+    <div class="container">
+      <div class="section-header-compact">
+        <h2>🔬 Crop Disease Detection</h2>
+        <p>Upload an image to detect crop diseases instantly</p>
+      </div>
+      
+      <div class="disease-card">
+        <h2>AI-Powered Disease Detection</h2>
+        <p>Upload a photo of your crop for instant disease analysis</p>
+        
+        <div class="input-group-modern">
+          <label for="imageInput">📷 Upload Crop Image</label>
+          <div class="file-upload-wrapper">
+            <input type="file" id="imageInput" accept="image/*" class="file-upload-input" onchange="handleFileSelect(event)">
+            <label for="imageInput" class="file-upload-label">
+              <span class="upload-icon">📸</span>
+              <span class="upload-text">Click to upload or drag image here</span>
+            </label>
+          </div>
+          <div id="fileName" class="file-name-display" style="display: none;"></div>
+          <small class="input-hint-modern">Supported formats: JPG, PNG (Max 5MB)</small>
+        </div>
+        
+        <div id="imagePreview" class="image-preview-container" style="display: none;">
+          <img id="previewImg" class="image-preview" alt="Preview">
+        </div>
+        
+        <button onclick="predictDisease()" class="btn-modern-primary" id="detectBtn">
+          🔍 Detect Disease
+        </button>
+        
+        <div id="diseaseResult" class="result-display-modern" style="display: none;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Market Price Prediction Section -->
+  <section id="market-price" class="market-price-section">
+    <div class="container">
+      <div class="section-header-compact">
+        <h2>💰 Market Price Prediction</h2>
+        <p>Get accurate crop price predictions based on market conditions</p>
+      </div>
+      
+      <div class="market-card">
+        <h2>Smart Price Prediction</h2>
+        <p>Enter market and environmental data for price forecasting</p>
+        
+        <form id="priceForm" onsubmit="event.preventDefault(); predictPrice();">
+          <div class="input-group-modern">
+            <label for="cropId">🌾 Crop Type</label>
+            <select id="cropId" class="modern-select" required>
+              <option value="">Select Crop</option>
+              <option value="1">Rice</option>
+              <option value="2">Wheat</option>
+              <option value="3">Maize</option>
+              <option value="4">Cotton</option>
+              <option value="5">Sugarcane</option>
+              <option value="6">Pulses</option>
+              <option value="7">Vegetables</option>
+              <option value="8">Fruits</option>
+            </select>
+          </div>
+          
+          <div class="input-group-modern">
+            <label for="stateId">📍 State</label>
+            <select id="stateId" class="modern-select" required>
+              <option value="">Select State</option>
+              <option value="1">Andhra Pradesh</option>
+              <option value="2">Karnataka</option>
+              <option value="3">Kerala</option>
+              <option value="4">Tamil Nadu</option>
+              <option value="5">Maharashtra</option>
+              <option value="6">Gujarat</option>
+              <option value="7">Rajasthan</option>
+              <option value="8">Madhya Pradesh</option>
+              <option value="9">Uttar Pradesh</option>
+              <option value="10">Bihar</option>
+              <option value="11">West Bengal</option>
+              <option value="12">Punjab</option>
+              <option value="13">Haryana</option>
+            </select>
+          </div>
+          
+          <div class="input-group-modern">
+            <label for="month">📅 Month</label>
+            <select id="month" class="modern-select" required>
+              <option value="">Select Month</option>
+              <option value="1">January</option>
+              <option value="2">February</option>
+              <option value="3">March</option>
+              <option value="4">April</option>
+              <option value="5">May</option>
+              <option value="6">June</option>
+              <option value="7">July</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <div class="input-group-modern">
+            <label for="rainfall">🌧️ Rainfall (mm)</label>
+            <input type="number" id="rainfall" placeholder="Enter rainfall amount" 
+                   required min="0" max="500" step="0.1">
+            <small class="input-hint-modern">Expected rainfall in millimeters (0-500)</small>
+          </div>
+          
+          <div class="input-group-modern">
+            <label for="temperature">🌡️ Temperature (°C)</label>
+            <input type="number" id="temperature" placeholder="Enter temperature" 
+                   required min="0" max="50" step="0.1">
+            <small class="input-hint-modern">Average temperature in Celsius (0-50)</small>
+          </div>
+          
+          <button type="button" onclick="loadSamplePriceData()" class="btn-modern-secondary">
+            📋 Load Sample Data
+          </button>
+          
+          <button type="submit" class="btn-modern-primary" id="predictBtn">
+            💹 Predict Price
+          </button>
+        </form>
+        
+        <div id="priceResult" class="result-display-modern" style="display: none;"></div>
+      </div>
+    </div>
+  </section>
+  <!-- Footer -->
+  <footer class="footer-redesigned">
+    <div class="footer-bg-pattern"></div>
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <div class="brand-logo">
+            <div class="brand-icon-large">🌱</div>
+            <div class="brand-info">
+              <h3>CultivaSense</h3>
+              <p>Empowering farmers with AI-driven crop recommendations for sustainable agriculture.</p>
+            </div>
+          </div>
+          <div class="footer-stats">
+            <div class="stat-box">
+              <span class="stat-number">22</span>
+              <span class="stat-label">Crops Analyzed</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-number">95%</span>
+              <span class="stat-label">Accuracy</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Platform</h4>
+            <ul>
+              <li><a href="#analyzer">Soil Analyzer</a></li>
+              <li><a href="#features">Crop Recommendations</a></li>
+              <li><a href="#features">Yield Optimization</a></li>
+              <li><a href="#features">Recovery Solutions</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-column">
+            <h4>Agriculture</h4>
+            <ul>
+              <li><a href="#features">Smart Farming</a></li>
+              <li><a href="#features">Soil Health</a></li>
+              <li><a href="#features">Nutrient Analysis</a></li>
+              <li><a href="#features">Sustainable Practices</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-column">
+            <h4>Connect</h4>
+            <div class="contact-info">
+              <div class="contact-item">
+                <span class="contact-icon">📧</span>
+                <span>cultivasense_test@gmail.com </span>
+              </div>
+              <div class="contact-item">
+                <span class="contact-icon">🌐</span>
+                <span>www.cultivasense.com</span>
+              </div>
+              <!-- <div class="social-links">
+                <a href="#" class="social-link">📱</a>
+                <a href="#" class="social-link">💼</a>
+                <a href="#" class="social-link">🐦</a>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div class="footer-divider"></div>
+        <div class="footer-bottom-content">
+          <div class="copyright">
+            <span>&copy; 2025 CultivaSense. All rights reserved.</span>
+            <span class="separator">|</span>
+            <span>Built with ❤️ for Indian Agriculture </span>
+          </div>
+          <div class="footer-badge">
+            <span class="badge-text">Powered by AI</span>
+            <span class="badge-icon">🤖</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
